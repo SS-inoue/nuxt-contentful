@@ -1,13 +1,20 @@
 import config from './.contentful.json'
-const contentful = require('contentful')
-const createClient = function() {
-  const config = {
-    space: '20yrlde04kd3',
-    accessToken: 'qic0Uh1msdKow5wXKi_IFInfcUd34Yb0uSri_-qN4WA',
-  }
-  return contentful.createClient(config)
-}
-const client = createClient()
+import { createClient } from './plugins/contentful.js'
+const client = createClient({
+  space: config.CTF_SPACE_ID,
+  accessToken: config.CTF_CDA_ACCESS_TOKEN,
+})
+
+// const contentful = require('contentful')
+// const createClient = function() {
+//   const config = {
+//     space: '20yrlde04kd3',
+//     accessToken: 'qic0Uh1msdKow5wXKi_IFInfcUd34Yb0uSri_-qN4WA',
+//   }
+//   return contentful.createClient(config)
+// }
+// const client = createClient()
+
 
 export default {
   mode: 'universal',
@@ -90,7 +97,6 @@ export default {
       return client.getEntries({
           'content_type': config.CTF_BLOG_POST_TYPE_ID
         }).then((entries) => {
-          console.log(entries)
         return [...entries.items.map(entry => `posts/${entry.fields.slug}`)]
       })
     }
